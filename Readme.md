@@ -1,11 +1,15 @@
-# Predictive Maintenance for Machines
+## Exploratory Data Analysis
 
-ML system to predict equipment failure from sensor data (AI4I 2020 dataset), served via FastAPI.
+Feature distributions split by failure status — failures correlate with higher torque, lower rotational speed, and higher tool wear.
 
-## Features
-- Trained RandomForestClassifier on sensor readings (temperature, torque, rotational speed, tool wear)
-- Handles class imbalance with `class_weight="balanced"`
-- ROC-AUC: 0.97
-- REST API for real-time predictions
+![Feature Distributions](assets/feature_distributions.png)
 
-## Project Structure
+## Model Performance
+
+### Feature Importance
+
+![Feature Importance](assets/feature_importance.png)
+
+### Confusion Matrix
+
+![Confusion Matrix](assets/confusion_matrix.png)
