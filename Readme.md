@@ -124,7 +124,7 @@ predictive_maintenance/
 ## Running Locally
 
 ### Requirements
-- Python 3.13
+- Python 3.13.3
 
 ### Setup
 
