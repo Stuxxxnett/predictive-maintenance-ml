@@ -33,21 +33,27 @@ The plot below shows how each sensor reading is distributed for normal operation
 
 ## Model
 
-A Random Forest classifier was trained with class balancing to account for the rarity of failure events.
+Two models were trained and compared: a Random Forest classifier and an XGBoost classifier, both with class imbalance handling. XGBoost was selected for production use based on superior recall on the minority (failure) class, which is the more costly error type in a maintenance context.
 
-- Algorithm: Random Forest Classifier (200 trees, max depth 10)
-- Class imbalance handling: balanced class weights
-- Evaluation metric: ROC-AUC of 0.97 on held-out test data
+| Metric | Random Forest | XGBoost (deployed) |
+|--------|---------------|---------------------|
+| ROC-AUC | 0.967 | 0.971 |
+| Precision (failure class) | 0.65 | 0.68 |
+| Recall (failure class) | 0.62 | 0.79 |
+| F1-score (failure class) | 0.63 | 0.73 |
+| Missed failures (false negatives) | 26 / 68 | 14 / 68 |
+
+XGBoost configuration: 200 trees, max depth 5, learning rate 0.1, with `scale_pos_weight` set to the inverse class ratio to address the approximately 3.4 percent failure rate in the training data.
 
 ### Feature Importance
 
-Torque, rotational speed, and tool wear are the most influential features in the model, consistent with the physical failure modes present in the dataset.
+Torque, rotational speed, and tool wear are the most influential features in the model, consistent with the physical failure modes present in the dataset. This ranking was consistent across both models.
 
 ![Feature Importance](assets/feature_importance.png)
 
 ### Confusion Matrix
 
-The confusion matrix below shows model performance on the test set. The model correctly identifies the majority of failure cases while maintaining high overall accuracy.
+The confusion matrix below shows Random Forest performance on the test set, used here as the baseline for comparison against the deployed XGBoost model.
 
 ![Confusion Matrix](assets/confusion_matrix.png)
 
