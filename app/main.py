@@ -7,8 +7,8 @@ import pandas as pd
 
 app = FastAPI(title="Predictive Maintenance API")
 
-model = joblib.load("models/rf_model.pkl")
-feature_columns = joblib.load("models/feature_columns.pkl")
+model = joblib.load("models/xgb_model.pkl")
+feature_columns = joblib.load("models/xgb_feature_columns.pkl")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -27,11 +27,11 @@ def root():
 @app.post("/predict")
 def predict(data: SensorData):
     input_df = pd.DataFrame([{
-        "Air temperature [K]": data.air_temperature,
-        "Process temperature [K]": data.process_temperature,
-        "Rotational speed [rpm]": data.rotational_speed,
-        "Torque [Nm]": data.torque,
-        "Tool wear [min]": data.tool_wear,
+        "Air temperature K": data.air_temperature,
+        "Process temperature K": data.process_temperature,
+        "Rotational speed rpm": data.rotational_speed,
+        "Torque Nm": data.torque,
+        "Tool wear min": data.tool_wear,
         "Type": data.type
     }])
 
